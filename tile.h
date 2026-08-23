@@ -1,7 +1,8 @@
 #include <ostream>
+#pragma once
 class Tile
 {
-  public:
+  private:
     enum class State
     {
         empty,
@@ -9,7 +10,7 @@ class Tile
         cross,
     };
 
-  private:
+  public:
     State state{};
     Tile() = default;
     void setToNought() { state = State::nought; };
