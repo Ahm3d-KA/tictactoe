@@ -11,7 +11,7 @@ class Board
 
   public:
     friend std::ostream& operator<<(std::ostream& out, const Board& board);
-    void makeMove(Coordinate coordinate);
+    void makeMove(const Coordinate& coordinate);
     GameState gameOver();
     // singleton
     static Board& getInstance()

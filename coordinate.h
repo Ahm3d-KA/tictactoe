@@ -16,8 +16,14 @@ class Coordinate
         bottomMiddle,
         bottomRight,
     };
-    std::array<std::pair<int, int>, gGridSize> mCoordinateGrid{{{0, 0}}};
+    std::array<std::array<std::pair<std::size_t, std::size_t>, gGridSize>,
+               gGridSize>
+        mCoordinateGrid{{{{{0, 0}, {0, 1}, {0, 2}}},
+                         {{{1, 0}, {1, 1}, {1, 2}}},
+                         {{{2, 0}, {2, 1}, {2, 2}}}}};
     CoordinateEnum mCoordinate{};
+    std::size_t y();
+    std::size_t x();
 
   public:
     Coordinate(int number);
