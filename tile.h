@@ -2,7 +2,7 @@
 #pragma once
 class Tile
 {
-  private:
+  public:
     enum class State
     {
         empty,
@@ -10,10 +10,14 @@ class Tile
         cross,
     };
 
+  private:
+    State mState{};
+
   public:
-    State state{};
     Tile() = default;
-    void setToNought() { state = State::nought; };
-    void setToCross() { state = State::cross; };
+    void setToNought() { mState = State::nought; };
+    void setToCross() { mState = State::cross; };
+    State getState() { return mState; }
+    void setState(State state) { mState = state; }
     friend std::ostream& operator<<(std::ostream& out, const Tile& tile);
 };
