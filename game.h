@@ -1,4 +1,6 @@
+
+#include "tile.h"
 namespace Game
 {
-void handleUserInput();
+int handleUserInput(Tile::State state);
 }

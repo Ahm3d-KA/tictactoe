@@ -3,7 +3,7 @@
 #include <ostream>
 class Coordinate
 {
-  private:
+  public:
     enum class CoordinateEnum
     {
         topLeft,
@@ -16,13 +16,34 @@ class Coordinate
         bottomMiddle,
         bottomRight,
     };
-    std::array<std::array<std::pair<std::size_t, std::size_t>, 3>, 3>
-        mCoordinateGrid{{{{{0, 0}, {0, 1}, {0, 2}}},
-                         {{{1, 0}, {1, 1}, {1, 2}}},
-                         {{{2, 0}, {2, 1}, {2, 2}}}}};
+
+  private:
+    static constexpr std::array<std::string, 9> names{{
+        "topLeft",
+        "topMiddle",
+        "topRight",
+        "middleLeft",
+        "middleMiddle",
+        "middleRight",
+        "bottomLeft",
+        "bottomMiddle",
+        "bottomRight",
+    }};
+    static constexpr std::array<std::pair<std::size_t, std::size_t>, 9>
+        mCoordinateGrid{{{0, 0},
+                         {0, 1},
+                         {0, 2},
+                         {1, 0},
+                         {1, 1},
+                         {1, 2},
+                         {2, 0},
+                         {2, 1},
+                         {2, 2}}};
+
+    CoordinateEnum mCoordinate{};
 
   public:
-    CoordinateEnum mCoordinate{};
+    CoordinateEnum getCoordinate() const { return mCoordinate; }
     std::size_t y() const;
     std::size_t x() const;
     Coordinate(int number);

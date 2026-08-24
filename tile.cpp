@@ -3,7 +3,7 @@
 
 std::ostream& operator<<(std::ostream& out, const Tile& tile)
 {
-    switch (tile.state)
+    switch (tile.mState)
     {
     case Tile::State::cross:
         out << "X";

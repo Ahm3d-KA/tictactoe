@@ -31,9 +31,8 @@ constexpr std::array<std::pair<std::size_t, std::size_t>, 4> keyTiles{
     {{0, 1}, {1, 0}, {2, 1}, {1, 2}}};
 GameState Board::gameOver(Tile::State state)
 {
-    assert(state == Tile::State::cross ||
-           state == Tile::State::nought &&
-               "only put in a nought or cross when querying GameOver()\n");
+    assert(((state == Tile::State::cross) || (state == Tile::State::nought)) &&
+           "only put in a nought or cross when querying GameOver()\n");
     if (mNumMoves < gMinMovesForWin)
         return GameState::ongoing;
     // loop over the key tiles and check if game has been won
@@ -69,7 +68,49 @@ GameState Board::gameOver(Tile::State state)
     case GameState::ongoing:
         if (mNumMoves == 9)
             return GameState::draw;
+        break;
     default:
         return diagWin;
     }
+    throw std::runtime_error("can't get here");
+}
+
+std::pair<Tile&, Tile&> Board::twoAdjacentTiles(const Coordinate& coordinate)
+{
+    switch (coordinate.getCoordinate())
+    {
+    case Coordinate::CoordinateEnum::bottomMiddle:
+        return {mGrid[2][0], mGrid[2][2]};
+
+    case Coordinate::CoordinateEnum::middleLeft:
+        return {mGrid[0][0], mGrid[0][2]};
+    case Coordinate::CoordinateEnum::middleRight:
+        return {mGrid[0][2], mGrid[2][2]};
+    case Coordinate::CoordinateEnum::topMiddle:
+        return {mGrid[0][0], mGrid[0][2]};
+    default:
+        throw std::invalid_argument(
+            "should only be giving the special values to twAdjacentTiles()\n");
+    }
+}
+
+GameState Board::checkDiagonals()
+{
+    // if any diagonal has them all match up
+    if ((mGrid[0][0].getState() == mGrid[1][1].getState() &&
+         mGrid[1][1].getState() == mGrid[2][2].getState()) ||
+        (mGrid[2][0].getState() == mGrid[1][1].getState() &&
+         mGrid[1][1].getState() == mGrid[0][2].getState()))
+    {
+        switch (mGrid[1][1].getState())
+        {
+        case Tile::State::cross:
+            return GameState::crossesWin;
+        case Tile::State::nought:
+            return GameState::noughtsWin;
+        default:
+            return GameState::ongoing;
+        }
+    }
+    return GameState::ongoing;
 }
