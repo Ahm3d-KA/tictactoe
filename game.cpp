@@ -1,34 +1,43 @@
 #include "game.h"
 #include "tile.h"
+#include <exception>
 #include <iostream>
 #include <stdexcept>
-int Game::handleUserInput(Tile::State state)
+int Game::HandleUserInput(Tile::State state)
 {
-    switch (state)
+    while (true)
     {
-    case Tile::State::cross:
-        std::cout << "player 1, enter an input: ";
-        break;
-    case Tile::State::nought:
-        std::cout << "player 2, enter an input: ";
-        break;
-    default:
-        throw std::invalid_argument(
-            "should only handle an input with nought or cross");
-    }
-    std::string input{};
-    std::getline(std::cin, input);
-    try
-    {
-        int num{std::stoi(input)};
-        if (num < 0 || num >= 9)
+
+        switch (state)
         {
-            throw std::out_of_range("Needs to be a number between 0 - 8");
+        case Tile::State::cross:
+            std::cout << "player 1, enter an input: ";
+            break;
+        case Tile::State::nought:
+            std::cout << "player 2, enter an input: ";
+            break;
+        default:
+            throw std::invalid_argument(
+                "should only handle an input with nought or cross\n");
         }
-        return num;
-    }
-    catch (...)
-    {
-        throw;
+        std::string input{};
+        std::getline(std::cin, input);
+        try
+        {
+            int num{std::stoi(input)};
+            if (num < 0 || num >= 9)
+            {
+                throw std::out_of_range("Needs to be a number between 0 - 8\n");
+            }
+            return num;
+        }
+        catch (const std::out_of_range& e)
+        {
+            std::cout << e.what();
+        }
+        catch (std::exception& e)
+        {
+            std::cout << e.what() << "im guessing fialed conversion\n";
+        }
     }
 }

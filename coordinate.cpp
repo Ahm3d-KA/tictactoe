@@ -46,6 +46,11 @@ Coordinate::Coordinate(std::size_t x, std::size_t y)
         {
             mCoordinate = CoordinateEnum::middleRight;
         }
+        else
+        {
+
+            throw std::out_of_range("x needs to be in range asw\n");
+        }
     }
     else if (y == 2)
     {
@@ -61,9 +66,18 @@ Coordinate::Coordinate(std::size_t x, std::size_t y)
         {
             mCoordinate = CoordinateEnum::bottomRight;
         }
+        else
+        {
+
+            throw std::out_of_range("x needs to be in range asw\n");
+        }
     }
-    throw std::out_of_range(
-        "y needs to be in range 0 - 2 to make a coordinate\n");
+    else
+    {
+
+        throw std::out_of_range(
+            "y needs to be in range 0 - 2 to make a coordinate\n");
+    }
 }
 std::ostream& operator<<(std::ostream& out, const Coordinate& coordinate)
 {

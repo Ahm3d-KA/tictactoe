@@ -40,6 +40,10 @@ GameState Board::gameOver(Tile::State state)
     {
         if (mGrid[y][x].getState() == state)
         {
+            assert(
+                (y <= 2) &&
+                "naughty naughty asserty caught you tryna sneek in weird y\n");
+            assert(x <= 2 && "x not less than 2 in assert\n");
             auto [t1, t2] = twoAdjacentTiles(Coordinate{x, y});
             if (mGrid[y][x].getState() == t1.getState() &&
                 t1.getState() == t2.getState())
@@ -68,7 +72,7 @@ GameState Board::gameOver(Tile::State state)
     case GameState::ongoing:
         if (mNumMoves == 9)
             return GameState::draw;
-        break;
+        [[fallthrough]];
     default:
         return diagWin;
     }
