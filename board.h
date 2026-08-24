@@ -18,6 +18,7 @@ class Board
     friend std::ostream& operator<<(std::ostream& out, const Board& board);
     void makeMove(const Coordinate& coordinate, Tile::State state);
     GameState gameOver(Tile::State state);
+    void erase();
     // singleton
     static Board& getInstance()
     {

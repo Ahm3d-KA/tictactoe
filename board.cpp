@@ -1,6 +1,7 @@
 #include "board.h"
 #include <cassert>
 #include <cstddef>
+#include <iostream>
 #include <stdexcept>
 
 std::ostream& operator<<(std::ostream& out, const Board& board)
@@ -45,6 +46,8 @@ GameState Board::gameOver(Tile::State state)
                 "naughty naughty asserty caught you tryna sneek in weird y\n");
             assert(x <= 2 && "x not less than 2 in assert\n");
             auto [t1, t2] = twoAdjacentTiles(Coordinate{x, y});
+            // std::cerr << "ADJACENT: " << mGrid[y][x] << " next to " << t1
+            // << " next to " << t2 << "\n";
             if (mGrid[y][x].getState() == t1.getState() &&
                 t1.getState() == t2.getState())
             {
@@ -87,7 +90,7 @@ std::pair<Tile&, Tile&> Board::twoAdjacentTiles(const Coordinate& coordinate)
         return {mGrid[2][0], mGrid[2][2]};
 
     case Coordinate::CoordinateEnum::middleLeft:
-        return {mGrid[0][0], mGrid[0][2]};
+        return {mGrid[0][0], mGrid[2][0]};
     case Coordinate::CoordinateEnum::middleRight:
         return {mGrid[0][2], mGrid[2][2]};
     case Coordinate::CoordinateEnum::topMiddle:
@@ -117,4 +120,11 @@ GameState Board::checkDiagonals()
         }
     }
     return GameState::ongoing;
+}
+
+constexpr std::array<std::array<Tile, gGridSize>, gGridSize> gGridCopy{};
+void Board::erase()
+{
+    mNumMoves = 0;
+    mGrid = gGridCopy;
 }
